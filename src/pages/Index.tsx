@@ -10,7 +10,7 @@ import { Loader2 } from "lucide-react";
 const Index = () => {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [filteredAssets, setFilteredAssets] = useState<Asset[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState(categories.length > 0 ? categories[0] : "");
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -37,9 +37,7 @@ const Index = () => {
     let filtered = assets;
 
     // Filter by category
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter(asset => asset.category === selectedCategory);
-    }
+    filtered = filtered.filter(asset => asset.category === selectedCategory);
 
     // Filter by search query
     if (searchQuery.trim() !== "") {
@@ -81,7 +79,7 @@ const Index = () => {
             <>
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-semibold">
-                  {selectedCategory === "All" ? "All Assets" : selectedCategory}
+                  {selectedCategory}
                 </h2>
                 <span className="text-sm text-muted-foreground">
                   {filteredAssets.length} {filteredAssets.length === 1 ? "asset" : "assets"} found

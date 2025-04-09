@@ -56,30 +56,11 @@ const CategorySidebar = ({
 
         <div className="flex-1 overflow-y-auto py-2">
           <div className="space-y-1 px-2">
-            <button
-              className={cn(
-                "w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
-                selectedCategory === "All"
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-white/10"
-              )}
-              onClick={() => setSelectedCategory("All")}
-            >
-              {!collapsed ? (
-                <>
-                  <span className="size-2 rounded-full bg-current" />
-                  <span>All Assets</span>
-                </>
-              ) : (
-                <span className="mx-auto size-2 rounded-full bg-current" />
-              )}
-            </button>
-            
             {categories.map((category) => (
               <button
                 key={category}
                 className={cn(
-                  "w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
+                  "w-full flex items-center px-3 py-2 rounded-md transition-colors",
                   selectedCategory === category
                     ? "bg-primary text-primary-foreground"
                     : "hover:bg-white/10"
@@ -87,12 +68,9 @@ const CategorySidebar = ({
                 onClick={() => setSelectedCategory(category)}
               >
                 {!collapsed ? (
-                  <>
-                    <span className="size-2 rounded-full bg-current" />
-                    <span>{category}</span>
-                  </>
+                  <span>{category}</span>
                 ) : (
-                  <span className="mx-auto size-2 rounded-full bg-current" />
+                  <span className="mx-auto text-xs">{category.substring(0, 1)}</span>
                 )}
               </button>
             ))}
