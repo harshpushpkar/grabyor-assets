@@ -50,6 +50,14 @@
   .glass-card {
     @apply bg-secondary/60 backdrop-blur-sm border border-white/10;
   }
+
+  /* Add styles for SVG content in the asset cards */
+  .max-w-full.max-h-full svg {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+  }
 }
 
 @layer utilities {

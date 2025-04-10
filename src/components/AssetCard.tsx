@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Check, Download, Copy } from 'lucide-react';
 import { toast } from "sonner";
 import { cn } from '@/lib/utils';
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 interface AssetCardProps {
   id: string;
@@ -50,9 +51,11 @@ const AssetCard = ({ id, name, category, svg }: AssetCardProps) => {
       onMouseLeave={() => setIsHovered(false)}
       onClick={copyToClipboard}
     >
-      <div className="aspect-square p-8 flex items-center justify-center">
-        <div className="w-full h-full" dangerouslySetInnerHTML={{ __html: svg }} />
-      </div>
+      <AspectRatio ratio={1}>
+        <div className="w-full h-full p-4 flex items-center justify-center">
+          <div className="max-w-full max-h-full flex items-center justify-center" dangerouslySetInnerHTML={{ __html: svg }} />
+        </div>
+      </AspectRatio>
 
       <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
         <div className="space-y-2">
