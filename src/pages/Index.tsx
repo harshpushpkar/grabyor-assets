@@ -4,53 +4,82 @@ import Hero from "@/components/Hero";
 import Header from "@/components/Header";
 import CategorySidebar from "@/components/CategorySidebar";
 import AssetCard from "@/components/AssetCard";
-import { fetchAssets, categories, Asset } from "@/data/mockAssets";
+import { Asset } from "@/data/mockAssets";
 import { Loader2 } from "lucide-react";
 
 const Index = () => {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [filteredAssets, setFilteredAssets] = useState<Asset[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState(categories.length > 0 ? categories[0] : "");
+  const [categories, setCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Load assets on component mount
+  // Load categories on component mount
   useEffect(() => {
-    const loadAssets = async () => {
+    const loadCategories = async () => {
+      try {
+        const res = await fetch('https://yourdomain.com/categories.php');
+        const data = await res.json();
+        setCategories(data);
+        
+        // Set initial selected category after categories are loaded
+        if (data.length > 0 && !selectedCategory) {
+          setSelectedCategory(data[0]);
+        }
+      } catch (err) {
+        console.error('Error loading categories', err);
+        setCategories([]);
+      }
+    };
+
+    loadCategories();
+  }, []);
+
+  // Fetch assets when selected category changes
+  useEffect(() => {
+    if (!selectedCategory) return;
+    
+    const fetchAssetsByCategory = async () => {
       setIsLoading(true);
       try {
-        const data = await fetchAssets();
+        const res = await fetch(`https://yourdomain.com/api.php?category=${selectedCategory}`);
+        const data = await res.json();
         setAssets(data);
         setFilteredAssets(data);
+        setError(null);
       } catch (error) {
-        console.error("Error fetching assets:", error);
+        console.error('Error loading assets:', error);
+        setError('Failed to load assets.');
+        setAssets([]);
+        setFilteredAssets([]);
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadAssets();
-  }, []);
+    fetchAssetsByCategory();
+  }, [selectedCategory]);
 
-  // Filter assets based on category and search query
+  // Filter assets based on search query
   useEffect(() => {
-    let filtered = assets;
-
-    // Filter by category
-    filtered = filtered.filter(asset => asset.category === selectedCategory);
-
-    // Filter by search query
-    if (searchQuery.trim() !== "") {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        asset =>
-          asset.name.toLowerCase().includes(query) ||
-          asset.category.toLowerCase().includes(query)
-      );
+    if (assets.length === 0) return;
+    
+    if (searchQuery.trim() === "") {
+      setFilteredAssets(assets);
+      return;
     }
-
+    
+    const query = searchQuery.toLowerCase();
+    const filtered = assets.filter(
+      asset =>
+        asset.name.toLowerCase().includes(query) ||
+        asset.category.toLowerCase().includes(query)
+    );
+    
     setFilteredAssets(filtered);
-  }, [selectedCategory, searchQuery, assets]);
+  }, [searchQuery, assets]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -69,6 +98,11 @@ const Index = () => {
           {isLoading ? (
             <div className="flex items-center justify-center h-64">
               <Loader2 className="animate-spin w-6 h-6 text-primary" />
+            </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <h3 className="text-lg font-medium text-destructive">{error}</h3>
+              <p className="text-muted-foreground mt-2">Please try again later or check your connection.</p>
             </div>
           ) : filteredAssets.length === 0 ? (
             <div className="text-center py-12">
