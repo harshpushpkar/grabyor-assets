@@ -64,7 +64,11 @@ export default {
         sm: 'calc(var(--radius) - 4px)'
       },
       fontFamily: {
-        sans: ['Inter var', 'sans-serif'],
+        sans: ['Work Sans', 'sans-serif'],
+        'work-sans': ['Work Sans', 'sans-serif'],
+      },
+      fontWeight: {
+        extrabold: '800',
       },
       keyframes: {
         'accordion-down': {
