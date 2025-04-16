@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import Hero from "@/components/Hero";
 import Header from "@/components/Header";
@@ -20,7 +19,7 @@ const Index = () => {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const res = await fetch('https://yourdomain.com/categories.php');
+        const res = await fetch('https://assets.grabyor.design/categories.php');
         const data = await res.json();
         setCategories(data);
         
@@ -44,7 +43,7 @@ const Index = () => {
     const fetchAssetsByCategory = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch(`https://yourdomain.com/api.php?category=${selectedCategory}`);
+        const res = await fetch(`https://assets.grabyor.design/api.php?category=${selectedCategory}`);
         const data = await res.json();
         setAssets(data);
         setFilteredAssets(data);

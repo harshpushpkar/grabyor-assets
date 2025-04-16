@@ -7,7 +7,7 @@ import { Asset } from "@/data/mockAssets";
  */
 export async function fetchAssetsByCategory(category: string): Promise<Asset[]> {
   try {
-    const response = await fetch(`https://yourdomain.com/api.php?category=${category}`);
+    const response = await fetch(`https://assets.grabyor.design/api.php?category=${category}`);
     
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);
@@ -25,7 +25,7 @@ export async function fetchAssetsByCategory(category: string): Promise<Asset[]> 
  */
 export async function fetchCategories(): Promise<string[]> {
   try {
-    const response = await fetch('https://yourdomain.com/categories.php');
+    const response = await fetch('https://assets.grabyor.design/categories.php');
     
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);
