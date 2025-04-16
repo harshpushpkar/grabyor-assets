@@ -20,7 +20,7 @@ const Header = ({ searchQuery, setSearchQuery }: HeaderProps) => {
             />
           </div>
           <div className="flex flex-col items-start">
-            <h1 className="text-xl font-extrabold leading-tight">Grabyor</h1>
+            <h1 className="text-xl font-extrabold leading-tight">GRABYOR</h1>
             <span className="text-sm font-medium -mt-1">Assets</span>
           </div>
         </div>
